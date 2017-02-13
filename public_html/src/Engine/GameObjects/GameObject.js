@@ -10,6 +10,7 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function GameObject(renderableObj) {
+    console.log("in gameobject const");
     this.mRenderComponent = renderableObj;
     this.mVisible = true;
     this.mCurrentFrontDir = vec2.fromValues(0, 1);  // this is the current front direction of the object

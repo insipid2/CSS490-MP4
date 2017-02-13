@@ -12,6 +12,9 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function MyGame() {
+    
+    this.kMinionSprite = "assets/minion_sprite.png";
+    
     // Main - large bottom view
     // Hero - always centered on Hero
     // DyeHit1-3 - for focusing on DyePack collisions
@@ -20,6 +23,8 @@ function MyGame() {
     this.mCameraDyeHit1 = null;
     this.mCameraDyeHit2 = null;
     this.mCameraDyeHit2 = null;
+    
+    this.DyePack = null;
 
     this.mMsg = null;
 
@@ -29,7 +34,21 @@ function MyGame() {
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
+MyGame.prototype.loadScene = function () {
+    console.log("loadScene");
+    gEngine.Textures.loadTexture(this.kMinionSprite);
+};
+
+MyGame.prototype.unloadScene = function () {
+    console.log("unloadScene");
+    gEngine.Textures.unloadTexture(this.kMinionSprite);
+};
+
 MyGame.prototype.initialize = function () {
+    console.log("init");
+    this.DyePack = new DyePack(this.kMinionSprite);
+    console.log("init2");
+    
     // Step A: set up the cameras
     this.mCameraMain = new Camera(
         vec2.fromValues(30, 27.5), // position of the camera
