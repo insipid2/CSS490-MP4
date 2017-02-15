@@ -29,6 +29,8 @@ function MyGame() {
     
     this.mHero = null;
     this.mHead = null;
+    this.mWingTop = null;
+    this.mWingBot = null;
     
     this.DyePack = null;
     this.DyePacks = null;
@@ -107,6 +109,7 @@ MyGame.prototype.initialize = function () {
     this.mHero.setSpeed(0.2);
     
     this.mHead = new Head(this.kMinionSprite);
+    this.mWingTop = new Wing(this.kMinionSprite);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -127,6 +130,7 @@ MyGame.prototype.draw = function () {
     this.DyePacks.draw();
     this.mHero.draw(this.mCameraMain);
     this.mHead.draw(this.mCameraMain);
+    this.mWingTop.draw(this.mCameraMain);
     
     this.mCameraHero.setupViewProjection();
     this.mCameraDyeHit1.setupViewProjection();
@@ -169,6 +173,8 @@ MyGame.prototype.update = function () {
     }
     
     this.mHero.update(x, y);
+    this.mHead.update();
+    this.mWingTop.update();
     
     this.DyePacks.update();
 //    // single dye pack handling, delete when dyepackset is working
