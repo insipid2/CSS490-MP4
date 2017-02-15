@@ -21,15 +21,19 @@ DyePackSet.prototype.draw = function () {
 
 DyePackSet.prototype.update = function () {
     for (var i = 0; i < this.mSet.length; i++) {
+        // update the dye pack
         if (this.mSet[i] !== null) {
             this.mSet[i].update();
     
+            // lifetime checks for dye pack
             if (this.mSet[i].isVisible()) {
                 if (this.mSet[i].getXform().getXPos() > this.mCameraMain.getWCCenter()[0] + this.mCameraMain.getWCWidth() / 2 ||
-                    Date.now() - this.mSet[i].kTimeCreated > 5000 || 
-                    this.mSet[i].getSpeed() <= 0) {
+                        Date.now() - this.mSet[i].kTimeCreated > this.mSet[i].kLifetimeMax) {
                     this.mSet[i].setVisibility(false);
                     this.mSet[i] = null;
+                }
+                if (this.mSet[i].getSpeed() <= 0 && !this.mSet[i].kIsHit) {
+                    this.mSet[i] = null
                 }
             }
         }

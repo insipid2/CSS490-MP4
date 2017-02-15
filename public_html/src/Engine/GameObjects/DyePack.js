@@ -14,6 +14,7 @@ function DyePack(spriteTexture) {
     this.kTimeCreated = Date.now();
     // max duration of object in milliseconds
     this.kLifetimeMax = 2000;
+    this.kIsHit = false;
     this.kRefWidth = 80;
     this.kRefHeight = 130;
     this.kDelta = 0.5;
@@ -31,9 +32,19 @@ DyePack.prototype.update = function () {
     
     var xform = this.getXform();
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        this.setSpeed.call(this, this.getSpeed.call(this) - 0.1);
+        this.setSpeed(this.getSpeed(this) - 0.1);
     }
     
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.S)) {
+        this.kIsHit = true;
+        this.setSpeed(0.0);
+    }
+    
+    if(this.kIsHit === true) {
+        var xform = this.mDyePack.getXform();
+        xform.setWidth(xform.getWidth() - 0.01);
+        xform.setHeight(xform.getHeight() - 0.01);
+    }
     GameObject.prototype.update.call(this);
     
     

@@ -27,6 +27,8 @@ function MyGame() {
     
     this.mBackground = null;
     
+    this.mHero - null;
+    
     this.DyePack = null;
     this.DyePacks = null;
 
@@ -100,6 +102,7 @@ MyGame.prototype.initialize = function () {
     this.mMsg.setTextHeight(3);
     
     this.DyePacks = new DyePackSet(this.mCameraMain);
+    this.mHero = new Hero(this.kMinionSprite);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -118,9 +121,7 @@ MyGame.prototype.draw = function () {
     this.mMsg.draw(this.mCameraMain);   // only draw status in the main camera
     
     this.DyePacks.draw();
-//    if (this.DyePack !== null) {
-//        this.DyePack.draw(this.mCameraMain);
-//    }
+    this.mHero.draw(this.mCameraMain);
     
     this.mCameraHero.setupViewProjection();
     this.mCameraDyeHit1.setupViewProjection();
@@ -137,8 +138,12 @@ MyGame.prototype.update = function () {
 
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
-        x = this.mCameraMain.mouseWCX();
-        y = this.mCameraMain.mouseWCY();
+        //  mouse cursor location      
+//        x = this.mCameraMain.mouseWCX();
+//        y = this.mCameraMain.mouseWCY();
+        var heroxform = this.mHero.getXform();
+        x = heroxform.getXPos() + heroxform.getWidth() / 2.2;
+        y = heroxform.getYPos() + heroxform.getHeight() / 4;
         this.genDyePack(x, y);
     }
     
@@ -158,6 +163,8 @@ MyGame.prototype.update = function () {
         this.mCurrentLine = null;
         this.mP1 = null;
     }
+    
+    this.mHero.update();
     
     this.DyePacks.update();
 //    // single dye pack handling, delete when dyepackset is working
