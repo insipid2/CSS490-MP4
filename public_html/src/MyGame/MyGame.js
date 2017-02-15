@@ -103,6 +103,7 @@ MyGame.prototype.initialize = function () {
     
     this.DyePacks = new DyePackSet(this.mCameraMain);
     this.mHero = new Hero(this.kMinionSprite);
+    this.mHero.setSpeed(0.2);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -134,13 +135,12 @@ MyGame.prototype.draw = function () {
 MyGame.prototype.update = function () {
     var msg = "Lines: " + this.mLineSet.length + " ";
     var echo = "";
-    var x, y;
+    // current mouse pointer position
+    var x = this.mCameraMain.mouseWCX();
+    var y = this.mCameraMain.mouseWCY();
 
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
-        //  mouse cursor location      
-//        x = this.mCameraMain.mouseWCX();
-//        y = this.mCameraMain.mouseWCY();
         var heroxform = this.mHero.getXform();
         x = heroxform.getXPos() + heroxform.getWidth() / 2.2;
         y = heroxform.getYPos() + heroxform.getHeight() / 4;
@@ -164,7 +164,7 @@ MyGame.prototype.update = function () {
         this.mP1 = null;
     }
     
-    this.mHero.update();
+    this.mHero.update(x, y);
     
     this.DyePacks.update();
 //    // single dye pack handling, delete when dyepackset is working

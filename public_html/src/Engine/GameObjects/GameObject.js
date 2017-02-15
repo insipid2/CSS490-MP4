@@ -77,9 +77,9 @@ GameObject.prototype.rotateObjPointTo = function (p, rate) {
     }
 
     // Step E: rotate the facing direction with the angle and rate
-    rad *= rate;  // actual angle need to rotate from Obj's front
+    //rad *= rate;  // actual angle need to rotate from Obj's front
     vec2.rotate(this.getCurrentFrontDir(), this.getCurrentFrontDir(), rad);
-    this.getXform().incRotationByRad(rad);
+    // this.getXform().incRotationByRad(rad);
 };
 
 GameObject.prototype.update = function () {

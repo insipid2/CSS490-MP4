@@ -23,19 +23,23 @@ function Hero(spriteTexture) {
 }
 gEngine.Core.inheritPrototype(Hero, GameObject);
 
-Hero.prototype.update = function () {
-    // control by WASD
-    var xform = this.getXform();
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
-        xform.incYPosBy(this.kDelta);
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
-        xform.incYPosBy(-this.kDelta);
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
-        xform.incXPosBy(-this.kDelta);
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        xform.incXPosBy(this.kDelta);
-    }
+// x, y describe the point toward which the hero will try to move
+Hero.prototype.update = function (x, y) {
+    
+    this.rotateObjPointTo([x, y], 0.05);
+    GameObject.prototype.update.call(this);
+//    // control by WASD - *OLD MOVEMENT*
+//    var xform = this.getXform();
+//    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
+//        xform.incYPosBy(this.kDelta);
+//    }
+//    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
+//        xform.incYPosBy(-this.kDelta);
+//    }
+//    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
+//        xform.incXPosBy(-this.kDelta);
+//    }
+//    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+//        xform.incXPosBy(this.kDelta);
+//    }
 };
