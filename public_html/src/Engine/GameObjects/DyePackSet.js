@@ -5,33 +5,32 @@
  */
 
 function DyePackSet(cam) {
-    this.DyePack = null;
     this.mCameraMain = cam;
     GameObjectSet.call(this);
 }
 
 gEngine.Core.inheritPrototype(DyePackSet, GameObjectSet);
 
-DyePackSet.prototype.addToSet = function (obj) {
-    this.DyePack = obj;
-};
-
 DyePackSet.prototype.draw = function () {
-    if (this.DyePack !== null) {
-        this.DyePack.draw(this.mCameraMain);
+    for (var i = 0; i < this.mSet.length; i++) {
+        if (this.mSet[i] !== null) {
+            this.mSet[i].draw(this.mCameraMain);
+        }
     }
 };
 
 DyePackSet.prototype.update = function () {
-    if (this.DyePack !== null) {
-        this.DyePack.update();
+    for (var i = 0; i < this.mSet.length; i++) {
+        if (this.mSet[i] !== null) {
+            this.mSet[i].update();
     
-        if (this.DyePack.isVisible()) {
-            if (this.DyePack.getXform().getXPos() > this.mCameraMain.getWCCenter()[0] + this.mCameraMain.getWCWidth() / 2 ||
-                Date.now() - this.DyePack.kTimeCreated > 2000 || 
-                this.DyePack.getSpeed() <= 0) {
-                this.DyePack.setVisibility(false);
-                this.DyePack = null;
+            if (this.mSet[i].isVisible()) {
+                if (this.mSet[i].getXform().getXPos() > this.mCameraMain.getWCCenter()[0] + this.mCameraMain.getWCWidth() / 2 ||
+                    Date.now() - this.mSet[i].kTimeCreated > 5000 || 
+                    this.mSet[i].getSpeed() <= 0) {
+                    this.mSet[i].setVisibility(false);
+                    this.mSet[i] = null;
+                }
             }
         }
     }
