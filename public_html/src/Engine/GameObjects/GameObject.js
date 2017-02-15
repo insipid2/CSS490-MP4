@@ -14,6 +14,7 @@ function GameObject(renderableObj) {
     this.mRenderComponent = renderableObj;
     this.mVisible = true;
     this.mCurrentFrontDir = vec2.fromValues(0, 1);  // this is the current front direction of the object
+    console.log("current front direction: " + this.mCurrentFrontDir);
     this.mSpeed = 0;
 }
 GameObject.prototype.getXform = function () { return this.mRenderComponent.getXform(); };
@@ -85,6 +86,7 @@ GameObject.prototype.update = function () {
     // simple default behavior
     var pos = this.getXform().getPosition();
     vec2.scaleAndAdd(pos, pos, this.getCurrentFrontDir(), this.getSpeed());
+    console.log("update gameobject");
 };
 
 GameObject.prototype.draw = function (aCamera) {

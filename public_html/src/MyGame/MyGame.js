@@ -14,6 +14,7 @@
 function MyGame() {
     
     this.kMinionSprite = "assets/minion_sprite.png";
+    // this.kBackground = "assets/space.png";
     
     // Main - large bottom view
     // Hero - always centered on Hero
@@ -23,6 +24,8 @@ function MyGame() {
     this.mCameraDyeHit1 = null;
     this.mCameraDyeHit2 = null;
     this.mCameraDyeHit2 = null;
+    
+    this.mBackground = null;
     
     this.DyePack = null;
 
@@ -35,27 +38,32 @@ function MyGame() {
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
 MyGame.prototype.loadScene = function () {
-    console.log("loadScene");
     gEngine.Textures.loadTexture(this.kMinionSprite);
+    console.log("load 1");
+    // gEngine.Textures.loadTexture(this.kBackground);
+    console.log("load 2");
 };
 
 MyGame.prototype.unloadScene = function () {
-    console.log("unloadScene");
     gEngine.Textures.unloadTexture(this.kMinionSprite);
+    // gEngine.Textures.unloadTexture(this.kBackground);
 };
 
 MyGame.prototype.initialize = function () {
     console.log("init");
     this.DyePack = new DyePack(this.kMinionSprite);
-    console.log("init2");
+    this.DyePack.setCurrentFrontDir(vec2.fromValues(1, 0));
+    this.DyePack.setSpeed(2.0);
+    this.DyePack.getXform().setRotationInDegree(-90);
+    //this.mBackground = new TextureRenderable(this.kBackground);
     
     // Step A: set up the cameras
     this.mCameraMain = new Camera(
-        vec2.fromValues(30, 27.5), // position of the camera
-        100,                       // width of camera
+        vec2.fromValues(100, 75), // position of the camera
+        200,                       // width of camera
         [0, 0, 800, 600]           // viewport (orgX, orgY, width, height)
     );
-    this.mCameraMain.setBackgroundColor([0.8, 0.8, 0.8, 1]);
+    this.mCameraMain.setBackgroundColor([0.0, 0.0, 0.0, 1]);
             // sets the background to gray
     
     this.mCameraHero = new Camera(
@@ -99,12 +107,16 @@ MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
     this.mCameraMain.setupViewProjection();
+    //this.mBackground.draw(this.mCameraMain);
     var i, l;
     for (i = 0; i < this.mLineSet.length; i++) {
         l = this.mLineSet[i];
         l.draw(this.mCameraMain);
     }
     this.mMsg.draw(this.mCameraMain);   // only draw status in the main camera
+    if (this.DyePack !== null) {
+        this.DyePack.draw(this.mCameraMain);
+    }
     
     this.mCameraHero.setupViewProjection();
     this.mCameraDyeHit1.setupViewProjection();
@@ -135,6 +147,16 @@ MyGame.prototype.update = function () {
     } else {
         this.mCurrentLine = null;
         this.mP1 = null;
+    }
+    
+    this.DyePack.update();
+    if (this.DyePack.isVisible()) {
+        if (this.DyePack.getXform().getXPos() > this.mCameraMain.getWCCenter()[0] + this.mCameraMain.getWCWidth() / 2 ||
+               Date.now() - this.DyePack.kTimeCreated > 2000 || 
+               this.DyePack.getSpeed() <= 0) {
+            this.DyePack.setVisibility(false);
+            this.DyePack = null;
+        }
     }
 
     msg += echo;

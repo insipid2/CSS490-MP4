@@ -25,6 +25,7 @@ function TextureRenderable(myTexture) {
     this.mTexHeight = 0;
     this.mTexLeftIndex = 0;
     this.mTexBottomIndex = 0;
+    console.log("texren");
 
     this.setTexture(myTexture);     // texture for this object, cannot be a "null"
 }
