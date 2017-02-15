@@ -28,6 +28,7 @@ function MyGame() {
     this.mBackground = null;
     
     this.DyePack = null;
+    this.DyePacks = null;
 
     this.mMsg = null;
 
@@ -51,10 +52,9 @@ MyGame.prototype.unloadScene = function () {
 
 MyGame.prototype.initialize = function () {
     console.log("init");
-    this.DyePack = new DyePack(this.kMinionSprite);
-    this.DyePack.setCurrentFrontDir(vec2.fromValues(1, 0));
-    this.DyePack.setSpeed(2.0);
-    this.DyePack.getXform().setRotationInDegree(-90);
+    
+    
+    
     //this.mBackground = new TextureRenderable(this.kBackground);
     
     // Step A: set up the cameras
@@ -63,7 +63,7 @@ MyGame.prototype.initialize = function () {
         200,                       // width of camera
         [0, 0, 800, 600]           // viewport (orgX, orgY, width, height)
     );
-    this.mCameraMain.setBackgroundColor([0.0, 0.0, 0.0, 1]);
+    this.mCameraMain.setBackgroundColor([0.9, 0.9, 0.9, 1]);
             // sets the background to gray
     
     this.mCameraHero = new Camera(
@@ -98,6 +98,8 @@ MyGame.prototype.initialize = function () {
     this.mMsg.setColor([0, 0, 0, 1]);
     this.mMsg.getXform().setPosition(-19, -8);
     this.mMsg.setTextHeight(3);
+    
+    this.DyePacks = new DyePackSet(this.mCameraMain);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -114,9 +116,11 @@ MyGame.prototype.draw = function () {
         l.draw(this.mCameraMain);
     }
     this.mMsg.draw(this.mCameraMain);   // only draw status in the main camera
-    if (this.DyePack !== null) {
-        this.DyePack.draw(this.mCameraMain);
-    }
+    
+    this.DyePacks.draw();
+//    if (this.DyePack !== null) {
+//        this.DyePack.draw(this.mCameraMain);
+//    }
     
     this.mCameraHero.setupViewProjection();
     this.mCameraDyeHit1.setupViewProjection();
@@ -132,6 +136,12 @@ MyGame.prototype.update = function () {
     var x, y;
 
 
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
+        x = this.mCameraMain.mouseWCX();
+        y = this.mCameraMain.mouseWCY();
+        this.genDyePack(x, y);
+    }
+    
     if (gEngine.Input.isButtonPressed(gEngine.Input.mouseButton.Left)) {
         x = this.mCameraMain.mouseWCX();
         y = this.mCameraMain.mouseWCY();
@@ -149,16 +159,32 @@ MyGame.prototype.update = function () {
         this.mP1 = null;
     }
     
-    this.DyePack.update();
-    if (this.DyePack.isVisible()) {
-        if (this.DyePack.getXform().getXPos() > this.mCameraMain.getWCCenter()[0] + this.mCameraMain.getWCWidth() / 2 ||
-               Date.now() - this.DyePack.kTimeCreated > 2000 || 
-               this.DyePack.getSpeed() <= 0) {
-            this.DyePack.setVisibility(false);
-            this.DyePack = null;
-        }
-    }
+    this.DyePacks.update();
+//    // single dye pack handling, delete when dyepackset is working
+//    if (this.DyePack !== null) {
+//        this.DyePack.update();
+//    
+//        if (this.DyePack.isVisible()) {
+//            if (this.DyePack.getXform().getXPos() > this.mCameraMain.getWCCenter()[0] + this.mCameraMain.getWCWidth() / 2 ||
+//                Date.now() - this.DyePack.kTimeCreated > 2000 || 
+//                this.DyePack.getSpeed() <= 0) {
+//                this.DyePack.setVisibility(false);
+//                this.DyePack = null;
+//            }
+//        }
+//    }
 
     msg += echo;
     this.mMsg.setText(msg);
+};
+
+MyGame.prototype.genDyePack = function(x, y) {
+    this.DyePack = null;
+    
+    this.DyePack = new DyePack(this.kMinionSprite);
+    this.DyePack.setCurrentFrontDir(vec2.fromValues(1, 0));
+    this.DyePack.setSpeed(2.0);
+    this.DyePack.getXform().setRotationInDegree(-90);
+    this.DyePack.getXform().setPosition(x, y);
+    this.DyePacks.addToSet(this.DyePack);
 };
