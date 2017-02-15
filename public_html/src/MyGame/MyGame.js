@@ -27,7 +27,8 @@ function MyGame() {
     
     this.mBackground = null;
     
-    this.mHero - null;
+    this.mHero = null;
+    this.mHead = null;
     
     this.DyePack = null;
     this.DyePacks = null;
@@ -65,7 +66,7 @@ MyGame.prototype.initialize = function () {
         200,                       // width of camera
         [0, 0, 800, 600]           // viewport (orgX, orgY, width, height)
     );
-    this.mCameraMain.setBackgroundColor([0.9, 0.9, 0.9, 1]);
+    this.mCameraMain.setBackgroundColor([0.0, 0.0, 0.0, 1]);
             // sets the background to gray
     
     this.mCameraHero = new Camera(
@@ -104,6 +105,8 @@ MyGame.prototype.initialize = function () {
     this.DyePacks = new DyePackSet(this.mCameraMain);
     this.mHero = new Hero(this.kMinionSprite);
     this.mHero.setSpeed(0.2);
+    
+    this.mHead = new Head(this.kMinionSprite);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -123,6 +126,7 @@ MyGame.prototype.draw = function () {
     
     this.DyePacks.draw();
     this.mHero.draw(this.mCameraMain);
+    this.mHead.draw(this.mCameraMain);
     
     this.mCameraHero.setupViewProjection();
     this.mCameraDyeHit1.setupViewProjection();
