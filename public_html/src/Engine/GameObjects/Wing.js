@@ -29,9 +29,16 @@ function Wing(spriteTexture) {
 }
 gEngine.Core.inheritPrototype(Wing, GameObject);
 
-Wing.prototype.update = function () {
+Wing.prototype.update = function (x, y) {
     // remember to update wing's animation
     this.mWing.updateAnimation();
+    
+    var xdist = Math.abs(this.mWing.getXform().getXPos() - x);
+    var ydist = Math.abs(this.mWing.getXform().getYPos() - y);
+    var dist = Math.sqrt(xdist * xdist + ydist * ydist);
+    this.rotateObjPointTo([x, y], 0.05);
+    this.setSpeed(dist / 20);
+    GameObject.prototype.update.call(this);
 
     // TODO: make sure wing is in position, possibly add parameter: update(x, y)
 

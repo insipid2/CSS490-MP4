@@ -18,7 +18,8 @@ function Patrol(cam, spritesheet) {
     this.mHead = new Head(this.kMinionSprite);
     this.mHead.getXform().setPosition(Math.random() * cam.getWCWidth() / 2 + cam.getWCWidth() / 2, Math.random() * cam.getWCHeight() / 2 + cam.getWCHeight() / 4);
     this.mHead.getXform().setSize(7.5, 7.5);
-    this.mHead.setCurrentFrontDir(vec2.fromValues(0, 1));
+    this.mHead.setCurrentFrontDir(vec2.fromValues(Math.random(), Math.random()));
+    this.mHead.setSpeed(Math.random() * .0816 + .0834);
     
     this.mWingTop = new Wing(this.kMinionSprite);
     this.mWingTop.getXform().setPosition(this.mHead.getXform().getXPos() + 10, this.mHead.getXform().getYPos() + 6);
@@ -33,8 +34,8 @@ Patrol.prototype.init = function () {
 
 Patrol.prototype.update = function () {
     this.mHead.update();
-    this.mWingTop.update();
-    this.mWingBot.update();
+    this.mWingTop.update(this.mHead.getXform().getXPos() + 10, this.mHead.getXform().getYPos() + 6);
+    this.mWingBot.update(this.mHead.getXform().getXPos() + 10, this.mHead.getXform().getYPos() - 6);
 };
 
 Patrol.prototype.draw = function (aCamera) {
