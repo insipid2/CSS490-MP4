@@ -23,6 +23,7 @@ function DyePack(spriteTexture) {
     this.mDyePack.getXform().setPosition(0, 33);
     this.mDyePack.getXform().setSize(2, 3.25);
     this.mDyePack.setElementPixelPositions(510, 595, 23, 153);
+    this.mCurrentFrontDir = vec2.fromValues(0, 1);
     GameObject.call(this, this.mDyePack);
     this.setVisibility(true);
 }

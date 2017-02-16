@@ -15,7 +15,6 @@ function Wing(spriteTexture) {
     this.kDelta = 0.2;
     this.mWing = new SpriteAnimateRenderable(spriteTexture);
     this.mWing.setColor([1, 1, 1, 0]);
-    this.mWing.getXform().setPosition(155, 55);
     this.mWing.getXform().setSize(10, 8);
     this.mWing.setSpriteSequence(512, 0,      // first element pixel position: top-left 512 is top of image, 0 is left of image
                                     204, 164,   // widthxheight in pixels
@@ -34,13 +33,11 @@ Wing.prototype.update = function () {
     // remember to update wing's animation
     this.mWing.updateAnimation();
 
-    // move towards the left and wraps
-    var xform = this.getXform();
-    xform.incXPosBy(-this.kDelta);
+    // TODO: make sure wing is in position, possibly add parameter: update(x, y)
 
-    // if fly off to the left, re-appear at the right
-    if (xform.getXPos() < 0) {
-        xform.setXPos(100);
-        xform.setYPos(65 * Math.random());
-    }
+//    // if fly off to the left, re-appear at the right
+//    if (xform.getXPos() < 0) {
+//        xform.setXPos(100);
+//        xform.setYPos(65 * Math.random());
+//    }
 };

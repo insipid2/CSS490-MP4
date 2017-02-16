@@ -33,7 +33,7 @@ DyePackSet.prototype.update = function () {
                     this.mSet[i] = null;
                 }
                 if (this.mSet[i].getSpeed() <= 0 && !this.mSet[i].kIsHit) {
-                    this.mSet[i] = null
+                    this.mSet[i] = null;
                 }
             }
         }

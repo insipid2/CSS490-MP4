@@ -86,7 +86,6 @@ GameObject.prototype.update = function () {
     // simple default behavior
     var pos = this.getXform().getPosition();
     vec2.scaleAndAdd(pos, pos, this.getCurrentFrontDir(), this.getSpeed());
-    console.log("update gameobject");
 };
 
 GameObject.prototype.draw = function (aCamera) {

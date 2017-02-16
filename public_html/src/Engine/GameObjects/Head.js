@@ -15,8 +15,6 @@ function Head(spriteTexture) {
     this.kRefHeight = 180;
     this.mHead = new SpriteRenderable(spriteTexture);
     this.mHead.setColor([1, 1, 1, 0]);
-    this.mHead.getXform().setPosition(150, 50);
-    this.mHead.getXform().setSize(7.5, 7.5);
     this.mHead.setElementPixelPositions(130, 310, 0, 180);
     GameObject.call(this, this.mHead);
     this.setVisibility(true);

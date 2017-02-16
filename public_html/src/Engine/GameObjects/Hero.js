@@ -25,8 +25,11 @@ gEngine.Core.inheritPrototype(Hero, GameObject);
 
 // x, y describe the point toward which the hero will try to move
 Hero.prototype.update = function (x, y) {
-    
+    var xdist = Math.abs(this.mDye.getXform().getXPos() - x);
+    var ydist = Math.abs(this.mDye.getXform().getYPos() - y);
+    var dist = Math.sqrt(xdist * xdist + ydist * ydist);
     this.rotateObjPointTo([x, y], 0.05);
+    this.setSpeed(dist / 20);
     GameObject.prototype.update.call(this);
 //    // control by WASD - *OLD MOVEMENT*
 //    var xform = this.getXform();
